@@ -1,0 +1,39 @@
+spring:
+  servlet:
+    multipart:
+      enabled: true
+      file-size-threshold: 2KB
+      max-file-size: 200MB
+      max-request-size: 215MB
+  mail:
+    host: smtp.qq.com
+    username: ssnhtom@qq.com
+    password: zwkzbuvmgvambgfc
+    default-encoding: utf-8
+  datasource:
+      url: jdbc:mysql://localhost:3306/mycourses?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=GMT%2B8
+      username: root
+      password: root
+      driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    database: mysql
+    show-sql: false
+    hibernate:
+      ddl-auto: update
+      naming:
+        implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyJpaCompliantImpl
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5Dialect
+    open-in-view: true
+server:
+  port: 8081
+
+
+mycourses:
+  expiration_time: 10800000
+  secret: "mycourses"
+  token_prefix: "Bearer "
+  header_string: "Authorization"
+
