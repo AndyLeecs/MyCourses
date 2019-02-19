@@ -1,10 +1,10 @@
 package com.andi.mycourses.entity;
 
+import com.andi.mycourses.vo.TeaRegisterInfoVo;
 import lombok.*;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import java.util.List;
 
@@ -19,7 +19,7 @@ import java.util.List;
 public class Teacher extends BaseUser{
     @OneToMany(mappedBy = "teacher", targetEntity = Course.class, cascade = CascadeType.ALL)
     List<Course> courses;
-    public Teacher(TeaRegisterInfoVo teaRegisterInfoVo,String email)
+    public Teacher(TeaRegisterInfoVo teaRegisterInfoVo, String email)
     {
         this.email = email;
         this.name = teaRegisterInfoVo.getName();

@@ -1,11 +1,13 @@
 package com.andi.mycourses.entity;
 
+import com.andi.mycourses.vo.StuRegisterInfoVo;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.util.List;
 
 /**
  * @author andi
@@ -19,11 +21,21 @@ import javax.persistence.*;
 public class Student extends BaseUser{
     private Long sid;
     private boolean is_written_off = false;
+
+    @OneToMany(mappedBy = "student", targetEntity = EnrollRecord.class, cascade = CascadeType.ALL)
+    private List<EnrollRecord> records;
+
     public Student(StuRegisterInfoVo stuRegisterInfoVo, String email)
     {
         this.email = email;
         this.sid = stuRegisterInfoVo.getSid();
         this.name = stuRegisterInfoVo.getName();
         this.password = stuRegisterInfoVo.getPassword();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        Student s = (Student)obj;
+        return sid.equals(s.getSid());
     }
 }

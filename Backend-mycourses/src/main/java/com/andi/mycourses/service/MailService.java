@@ -29,7 +29,7 @@ public class MailService {
         String context = "<a href=\"http://localhost:8081/api/v1/checkCode?code="+code+"\">激活点我</a>";
         sendMail(user.getEmail(),subject,context);
     }
-    private void sendMail(String to, String subject, String context)
+    public void sendMail(String to, String subject, String context)
     {
         MimeMessage message = mailSender.createMimeMessage();
         MimeMessageHelper helper = null;

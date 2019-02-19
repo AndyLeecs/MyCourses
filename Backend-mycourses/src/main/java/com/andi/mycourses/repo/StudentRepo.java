@@ -8,12 +8,15 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 /**
  * @author andi
  */
 @Repository
 public interface StudentRepo extends JpaRepository<Student, String> {
+    Student findDistinctBySid(long sid);
+
     @Modifying
     @Transactional(rollbackOn = Exception.class)
     @Query("update Student set sid=:sid where email=:email")
@@ -32,4 +35,11 @@ public interface StudentRepo extends JpaRepository<Student, String> {
                        @Param("name")String name,
                        @Param("password")String password
                            );
+    @Transactional(rollbackOn = Exception.class)
+    @Query(nativeQuery = true,
+            value = "select * from base_user natural join student where email in " +
+                    "(select distinct student_email from enroll_record where lesson_id = :lesson_id)")
+    List<Student> getStudentList(@Param("lesson_id") long lesson_id);
+
+
 }

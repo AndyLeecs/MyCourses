@@ -1,0 +1,57 @@
+<template>
+  <el-table @row-click="upvote"
+            @row-contextmenu="downvote"
+            :data="courses"
+            stripe
+            style="width: 100%">
+    <el-table-column label="课程名"
+      prop="name">
+    </el-table-column>
+    <el-table-column label="教师名"
+    prop="teacher">
+  </el-table-column>
+    <el-table-column label="开始时间"
+      prop="start">
+    </el-table-column>
+    <el-table-column label="结束时间"
+      prop="end">
+    </el-table-column>
+    <el-table-column label="班次"
+      prop="count">
+    </el-table-column>
+    <el-table-column label="班额"
+      prop="limit">
+    </el-table-column>
+    <ApproveComponent :upvote="upvote" :downvote="downvote"></ApproveComponent>
+  </el-table>
+</template>
+
+<script>
+  import http from '../utils/http'
+  import ApproveComponent from "./ApproveComponent";
+  export default {
+    name: "AdminPub",
+    components: {ApproveComponent},
+    data(){
+      return{
+        courses:[]
+      }
+    },
+    methods:{
+      async upvote(row){
+        let res = await http.post("/admin/upvotePub/"+row.id);
+      },
+      async downvote(row){
+        let res = await http.post("admin/downvotePub/"+row.id);
+      }
+    },
+    async mounted(){
+      let res = await http.get("/admin/pub");
+      this.courses = res.data;
+    }
+  }
+</script>
+
+<style scoped>
+
+</style>

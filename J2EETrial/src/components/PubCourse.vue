@@ -1,7 +1,18 @@
 <template>
   <div>
-    <el-dialog :title="title" :visible.sync="dialogTableVisible">
+    <el-dialog width="60%" :title="title" :visible.sync="dialogTableVisible">
     <el-form>
+      <el-form :inline="true">
+      <el-form-item label="学期">
+        <el-date-picker value-format="yyyy" v-model="pubTable.semester.start" size="mini"
+          type="year">
+        </el-date-picker>至
+        <el-date-picker value-format="yyyy" v-model="pubTable.semester.end" size="mini"
+        type="year">
+      </el-date-picker>学年第
+        <el-input-number v-model="pubTable.semester.rank" size="mini" :min="1" :max="4"></el-input-number>学期
+      </el-form-item>
+      </el-form>
       <el-form-item label="时间">
         <el-date-picker
           v-model="pubTable.date"
@@ -43,7 +54,7 @@
         components: {CoursesTable},
         data() {
           return{
-            coursewares : [],
+            courses : [],
             dialogTableVisible : false,
             title:'',
             pubTable:{
@@ -51,7 +62,12 @@
               date:'',
               count:'',
               limit:'',
-              limitNum:true
+              limitNum:true,
+              semester: {
+                start:'',
+                end: '',
+                rank : ''
+              }
             }
           }
         },
@@ -66,9 +82,7 @@
             },
             async submitForm()
             {
-              // let lesson = this.pubTable;
-              // lesson.id =
-              let res = await http.post("/lesson/pub",this.pubTable)
+              let res = await http.post("/lesson/pub",this.pubTable);
               this.dialogTableVisible = false;
             }
           },

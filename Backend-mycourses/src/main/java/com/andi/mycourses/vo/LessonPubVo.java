@@ -1,4 +1,4 @@
-package com.andi.mycourses.entity;
+package com.andi.mycourses.vo;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -17,4 +17,5 @@ public class LessonPubVo {
     private int count;
     private int limit;
     private boolean hasLimit;
+    private String[] semester;
 }

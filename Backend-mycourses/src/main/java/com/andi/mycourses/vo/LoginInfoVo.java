@@ -1,4 +1,4 @@
-package com.andi.mycourses.entity;
+package com.andi.mycourses.vo;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

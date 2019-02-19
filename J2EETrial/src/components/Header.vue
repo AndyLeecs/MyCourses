@@ -5,7 +5,7 @@
             <el-menu-item v-show="isStu" index="/course/select">可选课程</el-menu-item>
             <el-menu-item v-show="!isStu" index="/course/pub">发布课程</el-menu-item>
           <el-menu-item v-show="!isStu" index="/course/new">新建课程</el-menu-item>
-          <el-menu-item v-show="!isStu" index="/course/past">历史课程</el-menu-item>
+          <el-menu-item v-show="!isStu" index="/course/past">历史开课</el-menu-item>
           <InfoSubMenu></InfoSubMenu>
         </el-menu>
       </el-container>
@@ -25,7 +25,7 @@
           }
         },
       mounted() {
-          this.isStu = (this.$route.params.role == "student");
+          this.isStu = (sessionStorage.role == "student");
       }
     }
 </script>

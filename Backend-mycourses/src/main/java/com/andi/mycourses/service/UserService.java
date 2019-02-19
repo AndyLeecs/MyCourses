@@ -3,10 +3,9 @@ package com.andi.mycourses.service;
 import com.andi.mycourses.entity.*;
 import com.andi.mycourses.repo.BaseUserRepo;
 import com.andi.mycourses.repo.StudentRepo;
-import com.andi.mycourses.repo.TeacherRepo;
 import com.andi.mycourses.repo.UserRepo;
-import com.andi.mycourses.util.RoleUtil;
 import com.andi.mycourses.util.UUIDUtil;
+import com.andi.mycourses.vo.LoginInfoVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

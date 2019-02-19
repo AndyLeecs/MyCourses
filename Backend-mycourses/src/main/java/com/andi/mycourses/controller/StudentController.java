@@ -1,6 +1,6 @@
 package com.andi.mycourses.controller;
 
-import com.andi.mycourses.entity.StuRegisterInfoVo;
+import com.andi.mycourses.vo.StuRegisterInfoVo;
 import com.andi.mycourses.entity.Student;
 import com.andi.mycourses.service.StudentService;
 import net.sf.json.JSONObject;

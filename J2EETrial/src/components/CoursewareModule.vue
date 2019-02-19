@@ -40,7 +40,6 @@
         async download(row) {
           let res = await http.get("/courseware/download/"+row.id);
           window.open(res.config.url);
-
         },
         success(){
           console.log("success");

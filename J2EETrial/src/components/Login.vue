@@ -31,9 +31,6 @@
               </el-form-item>
             </el-form>
           </el-col>
-          <!--<el-col :span="4">-->
-            <!--<label id="postfix">@nju.edu.cn</label>-->
-          <!--</el-col>-->
         </el-row>
     </el-main>
     <el-footer></el-footer>
@@ -41,7 +38,6 @@
       <el-form>
       <el-form-item prop="newEmail">
           <el-input v-model="newEmail.email" autocomplete="off">
-            <!--<template slot="append">@nju.edu.cn</template>-->
           </el-input>
       </el-form-item>
       </el-form>
@@ -76,11 +72,6 @@
         newEmail : {
           email:''
         },
-        // newEmailRules:{
-        //   newEmail:[
-        //     {required: true, message: '请输入邮箱', trigger:'blur'}
-        //   ]
-        // }
       };
     },
     mounted(){
@@ -100,13 +91,7 @@
                   // sessionStorage.role = res.data.role;
                   sessionStorage.setItem("role",res.data.role);
                   this.$router.push(
-                    {
-                      //todo 关于login和register的路由
-                      name: 'Main',
-                      // params: {
-                      //   role : res.data.role
-                      // }
-                    }
+                    "/main"
                   );
                 }
               } else {

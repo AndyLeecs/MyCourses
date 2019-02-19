@@ -13,9 +13,30 @@ import HeaderForCur from "../components/HeaderForCur";
 import LessonMain from "../components/LessonMain";
 import Courseware from "../components/CoursewareModule";
 import HomeworkModule from "../components/HomeworkModule";
+import ForumModule from "../components/ForumModule";
+import ForumDetailComponent from "../components/ForumDetailComponent";
+import Treenode from "../components/Treenode";
+import StudentListModule from "../components/StudentListModule";
+import ScoreDetailComponent from "../components/ScoreDetailComponent";
+import SelectCourse from "../components/SelectCourse";
+import InfoStatistic from "../components/InfoStatistic";
+import PastCourse from "../components/PastCourse";
+import Admin from "../components/Admin";
+import AdminMain from "../components/AdminMain";
+import AdminNew from "../components/AdminNew";
+import AdminPub from "../components/AdminPub";
+import AdminStatistics from "../components/AdminStatistics";
+import InfoStatMain from "../components/InfoStatMain";
+import InfoAttend from "../components/InfoAttend";
+import InfoDropout from "../components/InfoDropout";
+import InfoScore from "../components/InfoScore";
+import InfoEnrollment from "../components/InfoEnrollment";
+import InfoWork from "../components/InfoWork";
+import InfoPublished from "../components/InfoPublished";
 
-Vue.use(Router)
-Vue.use(VueCookies)
+Vue.use(Router);
+Vue.use(VueCookies);
+Vue.use(Treenode);
 
 const router = new Router({
   mode: 'history',
@@ -30,6 +51,7 @@ const router = new Router({
       name: 'Register',
       component: Register
     },
+
     {
       path: '/lesson',
       name: 'LessonMain',
@@ -44,9 +66,30 @@ const router = new Router({
           path: '/homework',
           name: 'HomeworkModule',
           component: HomeworkModule
+        },
+        {
+          path: '/forum',
+          name: 'ForumModule',
+          component: ForumModule
+        },
+        {
+          path: '/forumDetail',
+          name: 'ForumDetailComponent',
+          component: ForumDetailComponent
+        },
+        {
+          path:'/stuList',
+          name: 'StudentListModule',
+          component: StudentListModule
+        },
+        {
+          path: '/scoreDetail',
+          name: 'ScoreDetailComponent',
+          component: ScoreDetailComponent
         }
       ]
     },
+
     {
       path: '/main',
       name: 'Main',
@@ -63,6 +106,43 @@ const router = new Router({
           component: Account
         },
         {
+          path: '/info/statistic',
+          name: 'InfoStatMain',
+          component : InfoStatMain,
+          children : [
+            {
+              path: '/attend',
+              name : 'InfoAttend',
+              component:InfoAttend
+            },
+            {
+              path: '/dropout',
+              name : 'InfoDropout',
+              component: InfoDropout
+            },
+            {
+              path: '/score',
+              name : 'InfoScore',
+              component: InfoScore
+            },
+            {
+              path:'/enrollment',
+              name:'InfoEnrollment',
+              component: InfoEnrollment
+            },
+            {
+              path : '/work',
+              name : 'InfoWork',
+              component : InfoWork
+            },
+            {
+              path:'/published',
+              name:'InfoPublished',
+              component : InfoPublished
+            }
+          ]
+        },
+        {
           path: '/course/pub',
           name: 'PubCourse',
           component: PubCourse
@@ -71,13 +151,52 @@ const router = new Router({
           path:'/course/current',
           name: 'CurrentCourse',
           component: CurrentCourse
+        },
+        {
+          path:'/course/select',
+          name:'SelectCourse',
+          component:SelectCourse
+        },
+        {
+          path:'/course/past',
+          name:'PastCourse',
+          component: PastCourse
         }
       ]
     },
+
     {
       path: '/error',
       name: 'Error',
       component: Error
+    },
+
+    {
+      path:'/admin',
+      name: 'Admin',
+      component: Admin
+    },
+    {
+      path:'/admin/main',
+      name: 'AdminMain',
+      component : AdminMain,
+      children :
+        [{
+        path: '/new',
+        name : 'AdminNew',
+        component : AdminNew
+      },
+      {
+        path: '/pub',
+        name : 'AdminPub',
+        component : AdminPub
+      },
+          {
+            path : '/statistics',
+            name : 'AdminStatistics',
+            component: AdminStatistics
+          }
+      ]
     }
 
   ]

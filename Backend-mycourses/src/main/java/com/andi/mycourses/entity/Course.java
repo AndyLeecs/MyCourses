@@ -28,6 +28,12 @@ public class Course {
     @JoinColumn(name="teacher_email")
     private Teacher teacher;
 
+    @OneToMany(mappedBy = "course", targetEntity = LessonWhole.class, cascade = CascadeType.ALL)
+    List<LessonWhole> lessons;
+
     @OneToMany(mappedBy = "course", targetEntity = Courseware.class, cascade = CascadeType.ALL)
     List<Courseware> coursewares;
+
+    @OneToMany(mappedBy = "course", targetEntity = Topic.class, cascade = CascadeType.ALL)
+    List<Topic> topics;
 }

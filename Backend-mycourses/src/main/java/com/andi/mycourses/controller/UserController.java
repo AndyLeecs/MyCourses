@@ -1,9 +1,7 @@
 package com.andi.mycourses.controller;
 
-import com.andi.mycourses.entity.LoginInfoVo;
+import com.andi.mycourses.vo.LoginInfoVo;
 import com.andi.mycourses.entity.User;
-import com.andi.mycourses.service.StudentService;
-import com.andi.mycourses.service.TeacherService;
 import com.andi.mycourses.service.UserService;
 import com.andi.mycourses.util.ConstUtil;
 import com.andi.mycourses.util.RoleUtil;

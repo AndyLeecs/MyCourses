@@ -11,15 +11,14 @@
         <el-form-item label="截止时间">
           <el-date-picker
             v-model="homework.ddl"
-            type="date"
-            value-format="yyyyMMdd"
-            placeholder="选择日期">
+            type="datetime"
+            placeholder="选择日期时间">
           </el-date-picker>
         </el-form-item>
         <el-form-item label="大小限制（MB）">
           <el-switch v-model="homework.hasSizeLimit">
           </el-switch>
-          <el-input-number v-if="homework.hasSizeLimit" v-model="num1" :min="0"></el-input-number>
+          <el-input-number v-if="homework.hasSizeLimit" v-model="homework.sizeLimit" :min="0"></el-input-number>
         </el-form-item>
         <el-form-item label="类型限制">
           <el-checkbox-group
@@ -48,10 +47,32 @@
     </el-dialog>
 
     <el-dialog :visible.sync="showDetailDialog">
+      <p id="title">{{homework.title}}</p>
+      <p>{{homework.content}}</p>
+      <p>截止时间    <el-date-picker
+        v-model="homework.ddl"
+        type="datetime"
+        readonly>
+      </el-date-picker></p>
+      <p v-if="homework.hasSizeLimit">大小限制：{{homework.sizeLimit}}MB</p>
 
+      <p>提交格式：
+      <span v-for="limit in homework.typesLimit">{{limit}}</span>
+      </p>
+
+      <el-button v-if="!isStu||homework.submitted" @click="download">下载</el-button>
+      <el-upload v-if="isStu"
+                 action="http://localhost:8081/api/v1/homework/upload"
+      :data='{"id":homework.id}'
+      :before-upload="beforeUpload"
+                 :on-success="successUpload"
+      v-bind:show-file-list="false"
+      with-credentials="true">
+        <el-button size="small" type="primary">点击上传</el-button>
+      </el-upload>
     </el-dialog>
 
-    <LessonComponent :show-new-btn='!isStu' :contents="homeworks" :click="detail" :upload="upload"/>
+    <LessonComponent v-bind:show-new-btn='!isStu&&isCur' :contents="homeworks" :click="detail" :upload="pub"/>
   </div>
 </template>
 
@@ -69,41 +90,78 @@
           fileList:[],
           isStu:sessionStorage.role == "student",
           options: filetypes.types,
+          isCur:sessionStorage.isCur,
 
           showPubDialog: false,
           showDetailDialog: false,
 
           homework:{
+            id:'',
+            lesson_id:sessionStorage.lesson_id,
             title:'',
             content:'',
             ddl:'',
-            hasSizeLimit:'',
+            hasSizeLimit:false,
             sizeLimit:'',
-            typesLimit:[]
+            typesLimit:[],
+            submitted:false
           }
         }
       },
       methods:{
-        upload(){
+        pub(){
           this.showPubDialog = true;
         },
-        submitUpload(){
+        beforeUpload(file){
+            let testmsg = file.name.substring(file.name.lastIndexOf('.'));
+            let validExt = false;
+            for (let ext of this.homework.typesLimit){
+              if (ext === testmsg){
+                validExt = true;
+              }
+            }
+            if(!validExt)
+            this.$message({
+              message:'文件类型错误'});
+            let validSize = file.size/1024/1024 < this.homework.sizeLimit;
+            if(!validSize){
+              this.$message({message:'文件大小超出限度'});
+            }
 
+          return validExt && validSize
         },
-        //如果是老师，查看带下载的详情，如果是学生，查看带成绩，上传,下载的详情
-        async detail(row) {
-          let res = await http.get("/homework/detail",row.id);
+        successUpload(){
+          this.$message({message:'成功'});
+          this.showDetailDialog = false;
+        },
+        async download(){
+          //学生下载自己的作业，老师下载所有人的作业
+          let res;
+          if (this.isStu) {
+            res = await http.get("/homework/self/"+this.homework.id);
+          }else{
+            res = await http.get("/homework/download/"+this.homework.id);
+          }
+          window.open(res.config.url);
+        },
 
+        async submitUpload(){
+          console.log(this.homework);
+          let res = await http.post("/homework/pub", this.homework);
+          this.getAll();
+        },
+
+        //如果是老师，查看带下载的详情，如果是学生，查看带上传,下载的详情
+        //todo 添加有关截止日期的提醒，在列表里，或者是在详情里，以及截止日期之后能否提交
+        async detail(row) {
+          let res = await http.get("/homework/detail/"+row.id,{});
+          this.homework = res.data;
           this.showDetailDialog = true;
         },
-        success(){
-          console.log("success");
-        },
-        error(){
-          console.log("error");
-        },
         async getAll(){
-
+          let res =
+            await http.get("/homework/all/"+this.homework.lesson_id,{});
+          this.homeworks = res.data;
         }
       },
       async mounted(){
@@ -113,5 +171,7 @@
 </script>
 
 <style scoped>
-
+  #title{
+    font-size: large;
+  }
 </style>

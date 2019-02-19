@@ -1,4 +1,4 @@
-package com.andi.mycourses.entity;
+package com.andi.mycourses.vo;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -10,7 +10,8 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-public class TeaRegisterInfoVo {
+public class StuRegisterInfoVo {
+    private Long sid;
     private String name;
     private String password;
 }

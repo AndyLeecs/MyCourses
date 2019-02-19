@@ -3,6 +3,8 @@ package com.andi.mycourses.controller;
 import com.andi.mycourses.entity.Courseware;
 import com.andi.mycourses.entity.DBFile;
 import com.andi.mycourses.service.CourseService;
+import com.andi.mycourses.util.FileUtil;
+import com.andi.mycourses.util.JsonUtil;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,37 +28,11 @@ import java.util.List;
 public class CoursewareController {
     @Autowired
     CourseService courseService;
-//    @PostMapping("/upload")
-//    public JSONObject upload(@RequestBody JSONObject jsonObject)
-//    {
-//        long course_id = jsonObject.getLong("course_id");
-//        MultipartFile file = (MultipartFile) jsonObject.get("file");
-//        boolean valid =  courseService.uploadCourseware(file, course_id);
-//
-//        JSONObject object = new JSONObject();
-//        object.put("valid",valid);
-//        return object;
-//    }
 
-    @GetMapping("/download/{fileId}")
+   @GetMapping("/download/{fileId}")
     public ResponseEntity<Resource> downloadFile(@PathVariable String fileId) {
-        // Load file from database
-
         DBFile dbFile = courseService.getCourseware(fileId);
-        String fileName = dbFile.getFileName();
-        try {
-            //todo chrome可以，火狐不行，怎么兼容多个浏览器
-            //todo 怎么直接返回那个url，考虑ajax的原理，get和post的区别
-            fileName = URLEncoder.encode(dbFile.getFileName(), "UTF-8");
-        }catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-        System.out.println(fileName);
-        return ResponseEntity.ok()
-                .contentType(MediaType.parseMediaType(dbFile.getFileType()))
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileName + "\"")
-                .body(new ByteArrayResource(dbFile.getData()));
+        return FileUtil.downloadFile(dbFile);
     }
 
 
@@ -80,11 +56,7 @@ public class CoursewareController {
     public JSONObject upload(@RequestParam("file") MultipartFile file, @RequestParam("course_id") long course_id)
     {
         System.out.println("uploading");
-//        long course_id = reqobject.getLong("course_id");
         boolean valid =  courseService.uploadCourseware(file, course_id);
-
-        JSONObject object = new JSONObject();
-        object.put("valid",valid);
-        return object;
+        return JsonUtil.getValidObject(valid);
     }
 }
