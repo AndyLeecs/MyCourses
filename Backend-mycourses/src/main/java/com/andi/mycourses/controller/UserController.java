@@ -22,7 +22,6 @@ public class UserController {
     @Autowired
     UserService userService;
 
-    //todo 数据库访问出错，返回什么
     @PostMapping("/username")
     public JSONObject changeName(HttpServletRequest request, @RequestBody JSONObject object)
     {

@@ -24,7 +24,6 @@ import java.util.List;
 
 /**
  * @author andi
- * todo controller 层的各种可能的空指针
  */
 @RestController
 @RequestMapping("/api/v1/homework")
@@ -68,7 +67,6 @@ public class HomeworkController {
     @GetMapping("/all/{lesson_id}")
     public JSONArray all(@PathVariable long lesson_id )
     {
-        //todo 改成在dao中只获取需要的域
         List<Homework> homeworks = service.getAllHomeworkPubs(lesson_id);
         JSONArray array = new JSONArray();
         for (Homework homework : homeworks)

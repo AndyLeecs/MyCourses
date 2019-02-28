@@ -39,7 +39,6 @@ public class CoursewareController {
     @GetMapping("/all")
     public JSONArray all(@RequestParam("course_id") long course_id )
     {
-        //todo 改成在dao中只获取需要的域
         List<Courseware> coursewares = courseService.getAllCoursewares(course_id);
         JSONArray array = new JSONArray();
         for (Courseware courseware : coursewares)

@@ -116,11 +116,8 @@ public class LessonService {
             LessonWhole lesson = lessonRepo.findById(lesson_id).get();
             String name = lesson.getCourse().getName();
             List<Student> students = getStudentList(lesson_id);
-            for (Student student : students) {
-                //todo 能不能直接实现群发功能
-                String to = student.getEmail();
-                mailService.sendMail(to, name + ":" + title, content);
-            }
+            String[] emails = students.stream().map(BaseUser::getEmail).toArray(String[]::new);
+            mailService.sendMail(emails, name + ":" + title, content);
         }catch (Exception e)
         {
             e.printStackTrace();

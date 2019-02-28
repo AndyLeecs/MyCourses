@@ -113,7 +113,6 @@ public class CourseService {
     public boolean apply(String teacher_email, String name)
     {
         try {
-            //todo 写在dao层
             Course course = new Course();
             course.setName(name);
             Teacher teacher = teacherRepo.findById(teacher_email).get();

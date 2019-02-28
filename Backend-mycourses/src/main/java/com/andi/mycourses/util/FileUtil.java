@@ -112,7 +112,7 @@ public class FileUtil {
 
     private static void compress(File sourceFile, ZipOutputStream zos, String name,
                                  boolean KeepDirStructure) throws Exception{
-        byte[] buf = new byte[BUFFER_SIZE];//todo 这里的buffersize是啥单位
+        byte[] buf = new byte[BUFFER_SIZE];
         if(sourceFile.isFile()){
             // 向zip输出流中添加一个zip实体，构造器中name为zip实体的文件的名字
             zos.putNextEntry(new ZipEntry(name));

@@ -29,20 +29,39 @@ public class MailService {
         String context = "<a href=\"http://localhost:8081/api/v1/checkCode?code="+code+"\">激活点我</a>";
         sendMail(user.getEmail(),subject,context);
     }
+
+    private MimeMessageHelper getHelper(MimeMessage message) throws MessagingException
+    {
+        return new MimeMessageHelper(message, true);
+    }
+
+    private void send(MimeMessageHelper helper, String subject, String context, MimeMessage message) throws MessagingException{
+        helper.setFrom(from);
+        helper.setSubject(subject);
+        helper.setText(context, true);
+        mailSender.send(message);
+    }
+
+    public void sendMail(String[] to, String subject, String context)
+    {
+        try {
+            MimeMessage message = mailSender.createMimeMessage();
+            MimeMessageHelper helper = getHelper(message);
+            helper.setTo(to);
+            send(helper, subject, context, message);
+        }catch (MessagingException e){
+            e.printStackTrace();
+        }
+    }
+
     public void sendMail(String to, String subject, String context)
     {
-        MimeMessage message = mailSender.createMimeMessage();
-        MimeMessageHelper helper = null;
         try {
-            helper = new MimeMessageHelper(message, true);
-            helper.setFrom(from);
-            helper.setSubject(subject);
+            MimeMessage message = mailSender.createMimeMessage();
+            MimeMessageHelper helper = getHelper(message);
             helper.setTo(to);
-            helper.setText(context, true);
-            mailSender.send(message);
-            System.out.println("mail send");
-        }catch (MessagingException e)
-        {
+            send(helper, subject, context, message);
+        }catch (MessagingException e){
             e.printStackTrace();
         }
     }
