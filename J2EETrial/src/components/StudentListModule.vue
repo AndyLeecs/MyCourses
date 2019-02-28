@@ -39,7 +39,7 @@
       <el-button @click="dropOut">退课</el-button>
     </div>
 
-    <courses-table v-bind:show-id="true" :courses="students"></courses-table>
+    <courses-table v-bind:show-id="true" :courses="students" :onclick="no"></courses-table>
 
   </div>
 </template>
@@ -57,6 +57,7 @@
           lesson_id : sessionStorage.lesson_id,
           students: [],
           isStu: sessionStorage.role == "student",
+          isCur: sessionStorage.isCur,
           showMailDialog : false,
           showUploadDialog : false,
           Mail:{
@@ -103,7 +104,8 @@
               "/main"
             )
           }
-        }
+        },
+        no(){}
       },
       async mounted()
       {

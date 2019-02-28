@@ -38,7 +38,7 @@ public interface StudentRepo extends JpaRepository<Student, String> {
     @Transactional(rollbackOn = Exception.class)
     @Query(nativeQuery = true,
             value = "select * from base_user natural join student where email in " +
-                    "(select distinct student_email from enroll_record where lesson_id = :lesson_id)")
+                    "(select distinct student_email from enroll_record where lesson_id = :lesson_id and drop_out = 0) and is_written_off = 0")
     List<Student> getStudentList(@Param("lesson_id") long lesson_id);
 
 

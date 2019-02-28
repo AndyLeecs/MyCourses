@@ -21,4 +21,6 @@ public interface CourseRepo extends JpaRepository<Course, Long> {
     void approve(@Param("id") long id, @Param("approved") int approved);
 
     List<Course> findByApproved(int approved);
+
+    long countByApproved(int approved);
 }
