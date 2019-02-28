@@ -86,11 +86,18 @@ public class AdminController {
     }
 
     @GetMapping("/stat")
-    public JSONObject getStatistics(){
-        JSONObject object = new JSONObject();
-        object.put("teacherCount",service.countTeacher());
-        object.put("studentCount",service.countStudent());
-        object.put("courseCount",service.countCourse());
-        return object;
+    public JSONArray getStatistics(){
+        JSONArray res = new JSONArray();
+        JSONObject nums = new JSONObject();
+        nums.put("teacherCount",service.countTeacher());
+        nums.put("studentCount",service.countStudent());
+        nums.put("courseCount",service.countCourse());
+        res.add(nums);
+        JSONObject courseApprove = new JSONObject();
+        courseApprove.put("up",service.countByApproved(1));
+        courseApprove.put("down",service.countByApproved(-1));
+        courseApprove.put("unsettle",service.countByApproved(0));
+        res.add(courseApprove);
+        return res;
     }
 }

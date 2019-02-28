@@ -68,4 +68,9 @@ public class AdminService {
     public long countCourse(){
         return courseRepo.count();
     }
+
+    public long countByApproved(int approved){
+        return courseRepo.countByApproved(approved);
+    }
+
 }
