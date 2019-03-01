@@ -6,23 +6,19 @@ import com.andi.mycourses.util.FileUtil;
 import com.andi.mycourses.vo.HomeworkPubVo;
 import com.andi.mycourses.vo.LessonPubVo;
 import com.andi.mycourses.vo.StuHomeworkDto;
-import org.apache.poi.hssf.usermodel.HSSFSheet;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.*;
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -128,12 +124,10 @@ public class LessonService {
 
     public List<LessonWhole> getLessonsToEnroll(String email)
     {
-        Student student = studentRepo.findById(email).get();
         //获取全部未结束的课程
         return lessonRepo.getLessonsToEnroll(email);
     }
 
-    //todo 重构下面的方法
     public String enrollNewLesson(String email, long lesson_id, int whichClass)
     {
         String msg = "选课成功";
@@ -146,10 +140,12 @@ public class LessonService {
             System.out.println(hasLimit);
             int currentClass = 1;
             int classCount = lessonWhole.getCount();
+            //如果有班额限制
             if (hasLimit) {
                 int limit = lessonWhole.getLimitNum();
+                //查看当前班级班额
                 int hasEnrolled = recordRepo.countByLessonAndWhichClass(lessonWhole, whichClass);
-                //如果超过班额，换一个班级
+                //如果超过班额，换一个班级，置whichClass为更换后的班级
                 if (hasEnrolled >= limit) {
                     while (currentClass <= classCount) {
                         hasEnrolled = recordRepo.countByLessonAndWhichClass(lessonWhole, currentClass);
@@ -161,10 +157,12 @@ public class LessonService {
                         currentClass++;
                     }
                     System.out.println(currentClass);
-
                 }
             }
+
+            //如果找不到合适的班级
             if (currentClass > classCount)msg="选课名额已满";
+                //如果能找到合适的班级
             else {
                 EnrollRecord record = new EnrollRecord(student, lessonWhole, whichClass);
                 recordRepo.save(record);
@@ -224,8 +222,6 @@ public class LessonService {
             //存文件
             ClassScore classScore = new ClassScore(dbFile);
             classScoreRepo.save(classScore);
-            //todo 检查格式，如果格式错误，返回false
-            //todo 检查学生是否在名单上
             String title = FileUtil.getPureName(dbFile);
             LessonWhole lessonWhole = lessonRepo.findById(lesson_id).get();
 //            //1.获取文件输入流

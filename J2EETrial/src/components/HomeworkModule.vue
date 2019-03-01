@@ -12,7 +12,9 @@
           <el-date-picker
             v-model="homework.ddl"
             type="datetime"
-            placeholder="选择日期时间">
+            value-format="yyyy-MM-dd HH:mm:ss"
+            placeholder="选择日期时间"
+            default-time="23:59:59">
           </el-date-picker>
         </el-form-item>
         <el-form-item label="大小限制（MB）">
@@ -52,6 +54,7 @@
       <p>截止时间    <el-date-picker
         v-model="homework.ddl"
         type="datetime"
+        value-format="yyyy-MM-dd hh:mm:ss"
         readonly>
       </el-date-picker></p>
       <p v-if="homework.hasSizeLimit">大小限制：{{homework.sizeLimit}}MB</p>
@@ -77,7 +80,6 @@
 </template>
 
 <script>
-  //todo 添加附件
   import LessonComponent from "./LessonComponent";
   import http from "../utils/http"
   import filetypes from "../utils/filetypes"
@@ -149,6 +151,7 @@
           console.log(this.homework);
           let res = await http.post("/homework/pub", this.homework);
           this.getAll();
+          this.showPubDialog = false;
         },
 
         //如果是老师，查看带下载的详情，如果是学生，查看带上传,下载的详情

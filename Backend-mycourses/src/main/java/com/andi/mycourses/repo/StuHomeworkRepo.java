@@ -2,8 +2,6 @@ package com.andi.mycourses.repo;
 
 import com.andi.mycourses.entity.Homework;
 import com.andi.mycourses.entity.StuHomework;
-import com.andi.mycourses.entity.Student;
-import com.andi.mycourses.vo.StuHomeworkDto;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

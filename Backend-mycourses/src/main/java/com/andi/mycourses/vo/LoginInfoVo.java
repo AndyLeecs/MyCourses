@@ -3,9 +3,6 @@ package com.andi.mycourses.vo;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import net.sf.json.JSONObject;
 
 /**
  * @author andi

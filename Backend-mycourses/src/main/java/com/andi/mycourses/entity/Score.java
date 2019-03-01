@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import net.bytebuddy.asm.Advice;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -22,7 +21,6 @@ public class Score {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    //todo 设置关联，现在默认title和上传文件的用户名是相关的
     private String title;
     private BigDecimal score;
 

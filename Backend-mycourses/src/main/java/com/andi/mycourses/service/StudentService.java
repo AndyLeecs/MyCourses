@@ -20,7 +20,6 @@ public class StudentService {
     }
     public boolean register(Student student)
     {
-        //todo 学号重复,报新的错
         try {
             Optional<Student> oldStudent = studentRepo.findById(student.getEmail());
             if (oldStudent.isPresent())

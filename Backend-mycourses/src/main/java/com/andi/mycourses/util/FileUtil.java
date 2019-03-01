@@ -2,7 +2,6 @@ package com.andi.mycourses.util;
 
 import com.andi.mycourses.entity.DBFile;
 import com.andi.mycourses.entity.StuHomework;
-import org.hibernate.procedure.spi.ParameterRegistrationImplementor;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -13,12 +12,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
 import java.net.URLEncoder;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.List;
-import java.util.UUID;
 import java.util.zip.ZipEntry;
-import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
 
 /**
@@ -40,8 +35,10 @@ public class FileUtil {
         System.out.println("start to merge to zip");
         DBFile res = null;
         String randPath = UUIDUtil.getUUID();
+        byte[] resData = null;
+        File tempDir = null;
         try {
-            File tempDir = new File(rootPath+"/"+randPath);
+            tempDir = new File(rootPath + "/" + randPath);
             if (!tempDir.exists()){
                 tempDir.mkdirs();
             }
@@ -53,22 +50,23 @@ public class FileUtil {
             }
             //压缩为zip
 //            byte[] resData = zip(getBytesFromFile(tempDir));
-            byte[] resData = toZip(tempDir.getAbsolutePath(), false);
+            resData = toZip(tempDir.getAbsolutePath(), false);
 
             //返回压缩后的文件
-            //todo 修改返回的zip名为作业名
             res = new DBFile(randPath+".zip","'application/zip'",resData);
 
-            //todo 这部分放在哪里处理，finally？
-            File[] listFiles = tempDir.listFiles();
-            for (int i = 0; i < listFiles.length; i++) {
-                listFiles[i].delete();
-            }
-            tempDir.delete();
-
-        }catch (Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            try {
+                File[] listFiles = tempDir.listFiles();
+                for (int i = 0; i < listFiles.length; i++) {
+                    listFiles[i].delete();
+                }
+                tempDir.delete();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
         return res;
     }
@@ -77,30 +75,25 @@ public class FileUtil {
     {
         ByteArrayOutputStream bos = null;
         ZipOutputStream zos = null;
-        byte[] b = null;
         try{
             bos = new ByteArrayOutputStream();
             zos =  new ZipOutputStream(bos);
             File sourceFile = new File(srcDir);
             compress(sourceFile, zos, sourceFile.getName(), keepDirStructure);
-            b = bos.toByteArray();
         }catch (Exception e){
             e.printStackTrace();
         }finally {
-            //todo 流的关闭顺序
+            if (zos != null) {
+                try {
+                    zos.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
             if (bos!=null)
             {
                 try {
                     bos.close();
-                }catch (IOException e)
-                {
-                    e.printStackTrace();
-                }
-            }
-            if (zos!=null)
-            {
-                try {
-                    zos.close();
                 }catch (IOException e)
                 {
                     e.printStackTrace();
@@ -258,7 +251,6 @@ public class FileUtil {
         System.out.println("start to download file");
         String fileName = dbFile.getFileName();
         try {
-            //todo chrome可以，火狐不行，怎么兼容多个浏览器
             fileName = URLEncoder.encode(dbFile.getFileName(), "UTF-8");
         }catch (Exception e)
         {
@@ -279,7 +271,6 @@ public class FileUtil {
         try {
             // Check if the file's name contains invalid characters
             if (!fileName.contains("..")) {
-//        todo        throw new FileStorageException("Sorry! Filename contains invalid path sequence " + fileName);
                 dbFile = new DBFile(fileName, file.getContentType(), file.getBytes());
             }
         }catch (IOException e)

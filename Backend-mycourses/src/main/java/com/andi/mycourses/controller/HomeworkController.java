@@ -1,9 +1,7 @@
 package com.andi.mycourses.controller;
 
-import com.andi.mycourses.entity.Courseware;
 import com.andi.mycourses.entity.DBFile;
 import com.andi.mycourses.entity.Homework;
-import com.andi.mycourses.service.CourseService;
 import com.andi.mycourses.service.LessonService;
 import com.andi.mycourses.util.DateUtil;
 import com.andi.mycourses.util.FileUtil;
@@ -12,7 +10,6 @@ import com.andi.mycourses.util.RoleUtil;
 import com.andi.mycourses.vo.HomeworkPubVo;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
-import org.omg.Messaging.SyncScopeHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;

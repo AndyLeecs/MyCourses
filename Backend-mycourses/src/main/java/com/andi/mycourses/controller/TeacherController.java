@@ -1,8 +1,8 @@
 package com.andi.mycourses.controller;
 
-import com.andi.mycourses.vo.TeaRegisterInfoVo;
 import com.andi.mycourses.entity.Teacher;
 import com.andi.mycourses.service.TeacherService;
+import com.andi.mycourses.vo.TeaRegisterInfoVo;
 import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

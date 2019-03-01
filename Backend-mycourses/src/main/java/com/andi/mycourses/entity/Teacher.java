@@ -1,7 +1,10 @@
 package com.andi.mycourses.entity;
 
 import com.andi.mycourses.vo.TeaRegisterInfoVo;
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;

@@ -1,7 +1,6 @@
 package com.andi.mycourses.repo;
 
 import com.andi.mycourses.entity.LessonWhole;
-import com.sun.tracing.dtrace.ProviderAttributes;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

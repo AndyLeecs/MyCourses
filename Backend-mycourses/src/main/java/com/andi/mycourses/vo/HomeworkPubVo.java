@@ -19,7 +19,7 @@ public class HomeworkPubVo {
 
     private String content;
 
-    private LocalDateTime ddl;
+    private String ddl;
 
     private boolean hasSizeLimit;
 

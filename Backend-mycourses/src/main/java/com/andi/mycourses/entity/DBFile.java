@@ -28,8 +28,6 @@ public class DBFile {
     @Lob
     protected byte[] data;
 
-    //todo 是否为文件都添加个时间
-
     public DBFile(String fileName, String fileType, byte[] data) {
         this.fileName = fileName;
         this.fileType = fileType;

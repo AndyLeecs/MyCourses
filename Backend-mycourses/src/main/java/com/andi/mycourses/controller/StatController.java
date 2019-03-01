@@ -1,6 +1,9 @@
 package com.andi.mycourses.controller;
 
-import com.andi.mycourses.entity.*;
+import com.andi.mycourses.entity.EnrollRecord;
+import com.andi.mycourses.entity.LessonWhole;
+import com.andi.mycourses.entity.Score;
+import com.andi.mycourses.entity.StuHomework;
 import com.andi.mycourses.service.LessonService;
 import com.andi.mycourses.vo.StuHomeworkDto;
 import net.sf.json.JSONArray;

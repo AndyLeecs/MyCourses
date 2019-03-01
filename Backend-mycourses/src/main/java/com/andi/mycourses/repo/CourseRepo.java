@@ -1,7 +1,6 @@
 package com.andi.mycourses.repo;
 
 import com.andi.mycourses.entity.Course;
-import com.andi.mycourses.entity.Teacher;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

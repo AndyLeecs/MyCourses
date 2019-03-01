@@ -1,6 +1,7 @@
 package com.andi.mycourses.service;
 
-import com.andi.mycourses.entity.*;
+import com.andi.mycourses.entity.BaseUser;
+import com.andi.mycourses.entity.User;
 import com.andi.mycourses.repo.BaseUserRepo;
 import com.andi.mycourses.repo.StudentRepo;
 import com.andi.mycourses.repo.UserRepo;
@@ -35,7 +36,6 @@ public class UserService {
     }
     public boolean changeSID(String email, Long sid)
     {
-        //todo optional
         try {
             studentRepo.setSID(email, sid);
         }catch (Exception e){
@@ -59,7 +59,6 @@ public class UserService {
         String email = loginInfoVo.getEmail();
         String password;
         try {
-                //todo 怎么检查optional
                 BaseUser baseUser = baseUserRepo.findById(email).get();
                 password = baseUser.getPassword();
 
@@ -93,8 +92,8 @@ public class UserService {
         User user = userRepo.findByCode(code);
         if (user != null)
         {
-            //todo 重复点击链接了怎么办
-            //userRepo.save(user);
+            user.setCode(null);
+            userRepo.save(user);
         }
         return user;
     }

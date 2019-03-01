@@ -1,7 +1,6 @@
 package com.andi.mycourses.service;
 
 import com.andi.mycourses.entity.User;
-import com.andi.mycourses.util.ConstUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -14,7 +13,6 @@ import javax.mail.internet.MimeMessage;
 /**
  * @author andi
  */
-//todo 激活之后清空激活码
 @Service
 public class MailService {
     @Autowired

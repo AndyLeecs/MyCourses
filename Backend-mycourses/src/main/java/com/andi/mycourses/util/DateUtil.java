@@ -17,7 +17,7 @@ public class DateUtil {
     private static final DateTimeFormatter dateFormatter  =
             DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
-    private static final DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+//    private static final DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
 
     private static final DateTimeFormatter forShow = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
@@ -33,13 +33,18 @@ public class DateUtil {
     public static LocalDateTime getLocalDateTime(String s)
     {
 //        s = s.replace("Z"," UTC");
-
-        return LocalDateTime.parse(s, df);
+        LocalDateTime time = null;
+        try {
+            time = LocalDateTime.parse(s, forShow);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return time;
     }
 
     public static String getTimeString(LocalDateTime time)
     {
-        return df.format(time);
+        return forShow.format(time);
     }
 
     public static String getTimeStringForShow(LocalDateTime time)

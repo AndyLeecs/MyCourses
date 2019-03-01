@@ -1,9 +1,7 @@
 package com.andi.mycourses.service;
 
 import com.andi.mycourses.entity.Course;
-import com.andi.mycourses.entity.Student;
 import com.andi.mycourses.entity.Teacher;
-import com.andi.mycourses.repo.StudentRepo;
 import com.andi.mycourses.repo.TeacherRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,7 +22,6 @@ public class TeacherService {
         List<Course> courses = new ArrayList<>();
         try {
             Teacher teacher = teacherRepo.findById(email).get();
-            //todo 添加该课程不能处于发布区间的条件
             courses = teacher.getCourses().stream()
                     .filter((Course c)->c.getApproved() == 1)
                     .collect(Collectors.toList());

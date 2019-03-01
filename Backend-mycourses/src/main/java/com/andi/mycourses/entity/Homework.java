@@ -1,11 +1,10 @@
 package com.andi.mycourses.entity;
 
+import com.andi.mycourses.util.DateUtil;
 import com.andi.mycourses.vo.HomeworkPubVo;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.GeneratorType;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -46,7 +45,7 @@ public class Homework {
     {
         this.title = vo.getTitle();
         this.content = vo.getContent();
-        this.ddl = vo.getDdl();
+        this.ddl = DateUtil.getLocalDateTime(vo.getDdl());
         this.hasSizeLimit = vo.isHasSizeLimit();
         this.sizeLimit = vo.getSizeLimit();
         this.typesLimit = vo.getTypesLimit();
