@@ -11,9 +11,6 @@
 </template>
 
 <script>
-  //todo 所有的表单/可以直接提交的input，添加不能为空及首尾不能有空格的验证，看有没有现成的东西
-  //todo 跳出注销提示框
-  //todo 跳出保存成功/失败提示框
   import LabelInputSwitch from "./LabelInputSwitch";
   import http from '../utils/http'
   export default {
@@ -39,10 +36,10 @@
        this.Info.sid = res.data.sid;
          }
     },
-    //todo 检查是否真的有更新
+
       methods:{
-          logout(){
-            http.post("/logout",{});
+          async logout(){
+            await http.post("/logout",{});
             //清空用户信息
             sessionStorage.clear();
             this.$router.push("/");
@@ -54,7 +51,7 @@
             this.Info.username = username;
           }
         },
-        //todo 检查是否都用了await
+
         async saveSID(sid){
           console.log("save");
           let res = await http.post("/sid",{"sid":sid});

@@ -32,7 +32,6 @@
         newComment: ''
       }
     },
-    //todo extract refresh
     methods: {
         async pubComment() {
           let res = await http.post("/forum/pubComment",

@@ -10,7 +10,6 @@
 </template>
 
 <script>
-  //todo 显示课程名
   import HeaderForCur from './HeaderForCur'
   import Account from "./Account";
   export default {

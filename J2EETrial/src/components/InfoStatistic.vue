@@ -56,7 +56,6 @@
         },
         filterHandler (value, row, column) {
           const property = column['property'];
-          //todo row[property].value什么意思
           return row[property] == value || row[property].value == value
         },
         setFilters(){

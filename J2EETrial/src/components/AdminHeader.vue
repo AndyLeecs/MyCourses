@@ -9,8 +9,6 @@
 </template>
 
 <script>
-  //todo 学生选课的时候也可以看到详情
-  //todo 图表显示
     export default {
         name: "AdminHeader"
     }

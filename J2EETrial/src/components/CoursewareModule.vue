@@ -28,7 +28,6 @@
           coursewares:[],
           showUpload: false,
           fileList:[],
-          //todo 管理sessionstorage
           course_id:sessionStorage.course_id,
           isStu:sessionStorage.role == "student"
         }

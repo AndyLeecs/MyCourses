@@ -7,7 +7,6 @@
 </template>
 
 <script>
-  //todo 能不能让上面index里的内容不要重复自己
     export default {
         name: "Info"
     }

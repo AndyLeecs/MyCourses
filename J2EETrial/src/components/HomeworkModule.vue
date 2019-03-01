@@ -155,7 +155,6 @@
         },
 
         //如果是老师，查看带下载的详情，如果是学生，查看带上传,下载的详情
-        //todo 添加有关截止日期的提醒，在列表里，或者是在详情里，以及截止日期之后能否提交
         async detail(row) {
           let res = await http.get("/homework/detail/"+row.id,{});
           this.homework = res.data;

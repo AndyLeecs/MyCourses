@@ -19,9 +19,9 @@
         }
       },
       methods:{
-          post()
+          async post()
           {
-            let res = http.post("/course/new",{"name":this.course})
+            let res = await http.post("/course/new",{"name":this.course})
             if (!res.msg)
             {
               this.$message({

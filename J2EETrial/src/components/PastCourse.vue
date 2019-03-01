@@ -3,7 +3,6 @@
 </template>
 
 <script>
-  //todo 和CurrentCourse是不是重复了
   import http from "../utils/http"
   import CoursesTable from "./CoursesTable";
   import LessonMain from "./LessonMain";
