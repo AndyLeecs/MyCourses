@@ -1,7 +1,5 @@
 <template>
-  <el-table @row-click="upvote"
-            @row-contextmenu="downvote"
-            :data="courses"
+  <el-table :data="courses"
             stripe
             style="width: 100%">
     <el-table-column label="课程名"
@@ -22,7 +20,20 @@
     <el-table-column label="班额"
       prop="limit">
     </el-table-column>
-    <ApproveComponent :upvote="upvote" :downvote="downvote"></ApproveComponent>
+    <el-table-column label="操作">
+      <template slot-scope="scope">
+        <el-button
+          size="mini"
+          @click="upvote(scope.row)">通过
+        </el-button>
+        <el-button
+          size="mini"
+          type="danger"
+          @click="downvote(scope.row)">不通过
+        </el-button>
+      </template>
+    </el-table-column>
+    <!--<ApproveComponent :upvote="upvote" :downvote="downvote"></ApproveComponent>-->
   </el-table>
 </template>
 
@@ -40,14 +51,19 @@
     methods:{
       async upvote(row){
         let res = await http.post("/admin/upvotePub/"+row.id);
+        this.getAll()
       },
       async downvote(row){
-        let res = await http.post("admin/downvotePub/"+row.id);
+        let res = await http.post("/admin/downvotePub/"+row.id);
+        this.getAll()
+      },
+      async getAll(){
+        let res = await http.get("/admin/pub");
+        this.courses = res.data;
       }
     },
     async mounted(){
-      let res = await http.get("/admin/pub");
-      this.courses = res.data;
+        this.getAll();
     }
   }
 </script>

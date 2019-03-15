@@ -65,7 +65,7 @@
           },
           async submitTopic(){
             let res = await http.post("/forum/pubTopic",{"course_id":this.topic.course_id,
-              "title":this.topic.title,"content":this.comment.content,"time":new Date()});
+              "title":this.topic.title,"content":this.comment.content,"time":new Date().Format("yyyy-MM-dd HH:mm:ss")});
             this.topics = res.data;
             this.showPubTopicDialog = false;
           }

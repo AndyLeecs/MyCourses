@@ -24,7 +24,8 @@
           {
             id: 'title',
             label: '项目',
-            filter: []
+            filter: [],
+            isNoFilter : true
           },
           {
             id: 'student',

@@ -25,10 +25,10 @@ public interface EnrollRecordRepo extends JpaRepository<EnrollRecord, Long> {
     int countByLessonAndWhichClass(LessonWhole lesson, int whichClass);
     @Transactional
     @Query(nativeQuery = true,
-            value = "select * from enroll_record natural join student" +
+            value = "select distinct * from enroll_record" +
                     " where lesson_id in (" +
                     "select id from lesson_whole where course_id in " +
                     "(select id from course where teacher_email = :email)" +
-                    ");")
+                    ") and drop_out=0;")
     List<EnrollRecord> getEnrollment(String email);
 }

@@ -20,7 +20,8 @@ import java.util.List;
 @Table(uniqueConstraints = @UniqueConstraint(columnNames = "sid"))
 public class Student extends BaseUser{
     private Long sid;
-    private boolean is_written_off = false;
+    @Column(name = "isWrittenOff")
+    private boolean isWrittenOff = false;
 
     @OneToMany(mappedBy = "student", targetEntity = EnrollRecord.class, cascade = CascadeType.ALL)
     private List<EnrollRecord> records;

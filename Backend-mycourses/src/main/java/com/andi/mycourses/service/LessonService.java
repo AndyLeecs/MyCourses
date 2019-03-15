@@ -18,7 +18,10 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -63,8 +66,8 @@ public class LessonService {
         return scoreRepo.getScores(email);
     }
 
-    public List<EnrollRecord> getEnrollment(String email)
-    {
+    //指教师
+    public List<EnrollRecord> getEnrollment(String email) {
         return recordRepo.getEnrollment(email);
     }
 
@@ -75,7 +78,16 @@ public class LessonService {
 
     public List<StuHomework> getHomeworkStats(String email)
     {
-        return stuHomeworkRepo.findByTeacher(email);
+        List<StuHomework> homeworks = stuHomeworkRepo.findByTeacher(email);
+        Iterator<StuHomework> it = homeworks.iterator();
+        while (it.hasNext()) {
+            StuHomework homework = it.next();
+            Student student = homework.getStudent();
+            LessonWhole lessonWhole = homework.getHomework().getLesson();
+            EnrollRecord record = recordRepo.findDistinctFirstByStudentAndLesson(student, lessonWhole);
+            if (record.isDropOut()) it.remove();
+        }
+        return homeworks;
     }
 
     public List<StuHomeworkDto> getUnhandledHomeworks(String email)
@@ -90,7 +102,7 @@ public class LessonService {
             {
                 String semester = l.getSemester();
                 List<Student> students =
-                        l.getRecords().stream().map(EnrollRecord::getStudent).collect(Collectors.toList());
+                        l.getRecords().stream().filter(record -> !record.isDropOut()).map(EnrollRecord::getStudent).collect(Collectors.toList());
                 for (Homework h : l.getHomeworks()){
                     String title = h.getTitle();
                     List<Student> unhandled = students;
@@ -164,8 +176,16 @@ public class LessonService {
             if (currentClass > classCount)msg="选课名额已满";
                 //如果能找到合适的班级
             else {
-                EnrollRecord record = new EnrollRecord(student, lessonWhole, whichClass);
-                recordRepo.save(record);
+                EnrollRecord pastRecord = recordRepo.findDistinctFirstByStudentAndLesson(student, lessonWhole);
+                if (pastRecord == null) {
+                    EnrollRecord record = new EnrollRecord(student, lessonWhole, whichClass);
+                    recordRepo.save(record);
+                } else {
+                    //如果之前选过这门课，直接更改选课信息
+                    pastRecord.setDropOut(false);
+                    pastRecord.setWhichClass(whichClass);
+                    recordRepo.save(pastRecord);
+                }
             }
         }catch (Exception e)
         {
@@ -178,7 +198,10 @@ public class LessonService {
     public List<LessonWhole> enrolled(String email)
     {
         List<EnrollRecord> enrollRecords = studentRepo.findById(email).get().getRecords();
-        return enrollRecords.stream().map(EnrollRecord::getLesson).collect(Collectors.toList());
+        //如果已经退课或者是以前的课，不显示
+        return enrollRecords.stream()
+                .filter(enrollRecord -> !enrollRecord.isDropOut() && enrollRecord.getLesson().getEnd_time().isAfter(LocalDate.now()))
+                .map(EnrollRecord::getLesson).collect(Collectors.toList());
     }
 
     public boolean dropOut(String email, long lesson_id)
@@ -324,6 +347,15 @@ public class LessonService {
         return lesson.getHomeworks();
     }
 
+    public List<LessonWhole> past(String email) {
+        List<LessonWhole> lessonWholes = new ArrayList<>();
+        try {
+            lessonWholes = lessonRepo.getPastlessons(email);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return lessonWholes;
+    }
 
     public List<LessonWhole> cur(String email)
     {

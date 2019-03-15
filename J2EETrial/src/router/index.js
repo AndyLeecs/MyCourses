@@ -207,7 +207,9 @@ router.beforeEach((to, from, next) => {
     from.name ? next({
       name: from.name
     }) : next('/error'); //判断此跳转路由的来源路由是否存在，存在的情况跳转到来源路由，否则跳转到404页面
-  } else if (!sessionStorage.role && to.path != '/'){
+  } else if (!sessionStorage.role && to.path != '/'
+    && to.path != '/student/register' && to.path != '/teacher/register'
+  && to.path != '/admin'){
     //如果未登陆，跳转到登录页面
     next(
       {

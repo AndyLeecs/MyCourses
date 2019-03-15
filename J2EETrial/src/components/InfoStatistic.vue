@@ -2,7 +2,7 @@
   <div>
     <el-main>
       <el-table ref="table" :data="tableData">
-        <el-table-column v-for="item in innertableHead"
+        <el-table-column v-for="item in tableHead"
                          v-if="!item.isNoFilter"
                          :key="item.id"
                          :prop="item.id"
@@ -10,7 +10,7 @@
                          :filters="item.filter"
                          :filter-method="item.filter && filterHandler">
         </el-table-column>
-          <el-table-column v-for="item in innertableHead"
+          <el-table-column v-for="item in tableHead"
                            v-if="item.isNoFilter"
                            :key="item.id"
                            :prop="item.id"
@@ -28,44 +28,41 @@
           tableHead:{},
           tableData:{},
         },
-        data(){
-          return {
-            innertableHead:{}
-          }
-        },
       methods:{
         uniqArrObject (arr) {
-          let result = {};
-          let finalResult = [];
+          let hash=[];
+          let final = []
           for (let i = 0; i < arr.length; i++) {
-            result[arr[i].text] = arr[i]
+            if(hash.indexOf(arr[i].value)==-1){
+              hash.push(arr[i].value);
+              final.push(arr[i])
+            }
           }
-          for (let key in result) {
-            finalResult.push(result[key])
-          }
-          return finalResult
+          return final;
         },
-        setTextAndValue(filterList, target)
+        setTextAndValue(target)
         {
+          var list = [];
           this.tableData.forEach((item) => {
-            filterList.push({
+            list.push({
               text: item[target], value: item[target]
             })
           });
-          filterList = this.uniqArrObject(filterList)
+          return this.uniqArrObject(list);
+
         },
         filterHandler (value, row, column) {
           const property = column['property'];
           return row[property] == value || row[property].value == value
         },
         setFilters(){
-          this.innertableHead = this.tableHead;
-          for (let tableDataItem of this.innertableHead) {
-            this.setTextAndValue(tableDataItem.filter, tableDataItem.id);
+          for (let tableDataItem of this.tableHead) {
+            tableDataItem.filter = this.setTextAndValue(tableDataItem.id);
+            console.log(tableDataItem.id + " "+tableDataItem.filter)
           }
         },
       },
-      mounted() {
+      created() {
         this.setFilters()
       }
     }

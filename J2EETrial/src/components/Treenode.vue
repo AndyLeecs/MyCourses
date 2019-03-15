@@ -46,11 +46,12 @@
           console.log(this.id);
           let res = await http.post("/forum/reply",
             {
-              "id": this.id, "parent_id": id, "content": this.newReply[id], "time": new Date()
+              "id": this.id, "parent_id": id, "content": this.newReply[id], "time": new Date().Format("yyyy-MM-dd HH:mm:ss")
             });
           this.refresh(res.data);
           // this.comments = res.data;
           this.$set(this.showReply, id, false);
+          this.newReply[id] = ""
         },
         refresh(data)
         {

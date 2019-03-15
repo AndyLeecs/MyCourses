@@ -1,9 +1,6 @@
 package com.andi.mycourses.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
@@ -47,5 +44,10 @@ public class EnrollRecord {
         this.student = student;
         this.lesson = lesson;
         this.whichClass = whichClass;
+    }
+
+    @Override
+    public String toString() {
+        return "id " + id + " student " + student.getName();
     }
 }

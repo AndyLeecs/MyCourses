@@ -80,13 +80,6 @@ public class StuListController {
         return array;
     }
 
-//    @GetMapping("/score/self/{score_id}")
-//    public JSONObject getSelfScore(HttpServletRequest request, @PathVariable String score_id)
-//    {
-//        EnrollRecord record = service.getSelfScore(score_id);
-//
-//    }
-
     @GetMapping("/score/download/{title}")
     public ResponseEntity<Resource> downloadFile(@PathVariable String title) {
         DBFile dbFile = service.getClassScores(title);

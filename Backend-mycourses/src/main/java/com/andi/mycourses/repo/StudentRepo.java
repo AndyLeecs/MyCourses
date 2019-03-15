@@ -24,12 +24,12 @@ public interface StudentRepo extends JpaRepository<Student, String> {
 
     @Modifying
     @Transactional(rollbackOn = Exception.class)
-    @Query("update Student set is_written_off=true where email=:email")
+    @Query("update Student set isWrittenOff=true where email=:email")
     void logout(@Param("email")String email);
 
     @Modifying
     @Transactional(rollbackOn = Exception.class)
-    @Query("update Student set sid=:sid,name=:name,password=:password,is_written_off=false where email=:email")
+    @Query("update Student set sid=:sid,name=:name,password=:password,isWrittenOff=false where email=:email")
     void registerAgain(@Param("email") String email,
                        @Param("sid") Long sid,
                        @Param("name")String name,
@@ -41,5 +41,5 @@ public interface StudentRepo extends JpaRepository<Student, String> {
                     "(select distinct student_email from enroll_record where lesson_id = :lesson_id and drop_out = 0) and is_written_off = 0")
     List<Student> getStudentList(@Param("lesson_id") long lesson_id);
 
-
+    long countByIsWrittenOff(boolean is_written_off);
 }

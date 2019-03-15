@@ -58,7 +58,7 @@ public class AdminService {
     }
 
     public long countStudent(){
-        return studentRepo.count();
+        return studentRepo.countByIsWrittenOff(false);
     }
 
     public long countTeacher(){

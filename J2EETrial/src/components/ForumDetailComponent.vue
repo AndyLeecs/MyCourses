@@ -35,8 +35,9 @@
     methods: {
         async pubComment() {
           let res = await http.post("/forum/pubComment",
-            {"id": this.id, "content": this.newComment, "time": new Date()});
+            {"id": this.id, "content": this.newComment, "time": new Date().Format("yyyy-MM-dd HH:mm:ss")});
           this.comments = res.data;
+          this.newComment = ""
         },
       refresh(data)
       {

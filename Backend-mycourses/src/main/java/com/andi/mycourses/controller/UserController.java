@@ -89,6 +89,7 @@ public class UserController {
                 HttpSession session = request.getSession(true);
                 session.setAttribute("email", user.getEmail());
                 String url = response.encodeURL(ConstUtil.baseURL + role + "/register");
+                System.out.println(url);
                 response.sendRedirect(url);
             } catch (Exception e) {
                 e.printStackTrace();

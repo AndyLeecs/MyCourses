@@ -78,20 +78,24 @@ public class StatController {
         return array;
     }
 
+    //指教师
     @GetMapping("/enrollment")
     public JSONArray getEnrollments(HttpServletRequest request){
         String email = SessionUtil.getSessionEmail(request);
         List<EnrollRecord> records = service.getEnrollment(email);
         JSONArray array = new JSONArray();
-        for (EnrollRecord record : records)
-        {
-            JSONObject object = new JSONObject();
-            LessonWhole lesson = record.getLesson();
-            object.put("semester",lesson.getSemester());
-            object.put("name",lesson.getCourse().getName());
-            object.put("student",record.getStudent().getName());
-            array.add(object);
+        for (EnrollRecord record : records) {
+            if (!record.getStudent().isWrittenOff()) {
+                System.out.println(record);
+                JSONObject object = new JSONObject();
+                LessonWhole lesson = record.getLesson();
+                object.put("semester", lesson.getSemester());
+                object.put("name", lesson.getCourse().getName());
+                object.put("student", record.getStudent().getName());
+                array.add(object);
+            }
         }
+        System.out.println(array);
         return array;
     }
 
@@ -118,13 +122,15 @@ public class StatController {
         JSONArray array = new JSONArray();
         for (StuHomework homework : homeworks)
         {
-            JSONObject object = new JSONObject();
-            object.put("semester",homework.getHomework().getLesson().getSemester());
-            object.put("name",homework.getHomework().getLesson().getCourse().getName());
-            object.put("title",homework.getHomework().getTitle());
-            object.put("student",homework.getStudent().getName());
-            object.put("handle","是");
-            array.add(object);
+            if (!homework.getStudent().isWrittenOff()) {
+                JSONObject object = new JSONObject();
+                object.put("semester", homework.getHomework().getLesson().getSemester());
+                object.put("name", homework.getHomework().getLesson().getCourse().getName());
+                object.put("title", homework.getHomework().getTitle());
+                object.put("student", homework.getStudent().getName());
+                object.put("handle", "是");
+                array.add(object);
+            }
         }
         List<StuHomeworkDto> unhandled = service.getUnhandledHomeworks(email);
         for (StuHomeworkDto dto : unhandled)

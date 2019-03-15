@@ -41,5 +41,6 @@ public interface StuHomeworkRepo extends JpaRepository<StuHomework, String> {
 //    @Transactional
 //    StuHomework findDistinctFirstByStudentAndAndHomework(Student student, Homework homework);
 
+
     List<StuHomework> findByHomework(Homework homework);
 }

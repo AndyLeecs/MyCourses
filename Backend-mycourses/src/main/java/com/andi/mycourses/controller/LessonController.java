@@ -68,6 +68,13 @@ public class LessonController {
         return getJsonArray(list);
     }
 
+    @GetMapping("/past/teacher")
+    public JSONArray past(HttpServletRequest request) {
+        String email = SessionUtil.getSessionEmail(request);
+        List<LessonWhole> list = service.past(email);
+        return getJsonArray(list);
+    }
+
     @GetMapping("/current/teacher")
     public JSONArray cur(HttpServletRequest request)
     {

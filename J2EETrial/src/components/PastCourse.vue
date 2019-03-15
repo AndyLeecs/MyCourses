@@ -23,6 +23,7 @@
           "/lesson");
         sessionStorage.isCur = false;
         sessionStorage.lesson_id = row.id;
+        sessionStorage.lesson_name = row.name;
         sessionStorage.course_id = row.course_id;
       }
     },

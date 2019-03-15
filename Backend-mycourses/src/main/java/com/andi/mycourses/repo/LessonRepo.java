@@ -34,6 +34,15 @@ public interface LessonRepo extends JpaRepository<LessonWhole, Long> {
     @Query(nativeQuery = true,
             value = "select * from lesson_whole where course_id in " +
                     "(select id from course where teacher_email=:email) " +
+//                    "and now() >= start_time " +
+                    "and now() > end_time " +
+                    "and approved=1")
+    List<LessonWhole> getPastlessons(@Param("email") String email);
+
+    @Transactional(rollbackOn = Exception.class)
+    @Query(nativeQuery = true,
+            value = "select * from lesson_whole where course_id in " +
+                    "(select id from course where teacher_email=:email) " +
                     "and approved=1")
     List<LessonWhole> getAlllessons(@Param("email") String email);
 
@@ -41,7 +50,8 @@ public interface LessonRepo extends JpaRepository<LessonWhole, Long> {
     @Query(nativeQuery = true,
             value = "select * from lesson_whole where id not in " +
                     "(select lesson_id from enroll_record " +
-                    "where student_email = :email) " +
+                    "where student_email = :email " +
+                    "and drop_out=0) " +
                     "and now() <= end_time " +
                     "and approved=1")
     List<LessonWhole> getLessonsToEnroll(@Param("email")String email);

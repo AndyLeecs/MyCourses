@@ -32,7 +32,6 @@ public class StudentController {
     @PostMapping("/register")
     public JSONObject register(HttpServletRequest request, @RequestBody StuRegisterInfoVo stuRegisterInfoVo)
     {
-        System.out.println("register");
         String email = (String)request.getSession().getAttribute("email");
         Student student = new Student(stuRegisterInfoVo, email);
         System.out.println(student);

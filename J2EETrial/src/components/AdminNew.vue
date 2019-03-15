@@ -9,7 +9,20 @@
     <el-table-column label="教师名"
     prop="teacher">
     </el-table-column>
-    <ApproveComponent :downvote="downvote(scope.row)" :upvote="upvote(scope.row)"/>
+    <el-table-column label="操作">
+      <template slot-scope="scope">
+        <el-button
+          size="mini"
+          @click="upvote(scope.row)">通过
+        </el-button>
+        <el-button
+          size="mini"
+          type="danger"
+          @click="downvote(scope.row)">不通过
+        </el-button>
+      </template>
+    </el-table-column>
+    <!--<ApproveComponent :downvote="downvote" :upvote="upvote"/>-->
   </el-table>
 </template>
 
@@ -31,7 +44,7 @@
             this.getAll();
           },
           async downvote(row){
-            let res = await http.post("admin/downvoteNew/"+row.id);
+            let res = await http.post("/admin/downvoteNew/"+row.id);
             this.getAll();
           },
           async getAll()

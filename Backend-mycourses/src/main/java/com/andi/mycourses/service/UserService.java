@@ -10,6 +10,8 @@ import com.andi.mycourses.vo.LoginInfoVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Random;
+
 /**
  * @author andi
  */
@@ -28,6 +30,9 @@ public class UserService {
     {
         try {
             studentRepo.logout(email);
+            BaseUser user = baseUserRepo.findById(email).get();
+            user.setPassword(UUIDUtil.getUUID());
+            baseUserRepo.save(user);
         }catch (Exception e)
         {
             return false;
@@ -82,7 +87,7 @@ public class UserService {
             user.setCode(UUIDUtil.getUUID());
             userRepo.save(user);
         }
-        System.out.println("code"+user.getCode());
+        System.out.println("code " + user.getCode());
         mailService.veri(user);
     }
 
@@ -92,7 +97,6 @@ public class UserService {
         User user = userRepo.findByCode(code);
         if (user != null)
         {
-            user.setCode(null);
             userRepo.save(user);
         }
         return user;

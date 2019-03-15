@@ -28,20 +28,6 @@
             <el-checkbox v-for="item in options" :label="item" :key="item">{{item}}</el-checkbox>
           </el-checkbox-group>
         </el-form-item>
-        <!--<el-form-item>-->
-      <!--<el-upload-->
-        <!--class="upload-demo"-->
-        <!--action="http://localhost:8081/api/v1/homework/upload"-->
-        <!--:on-success="success"-->
-        <!--:on-error="error"-->
-        <!--multiple-->
-        <!--:data=''-->
-        <!--:file-list="fileList"-->
-      <!--auto-upload="false">-->
-        <!--<el-button slot="trigger" size="small" type="primary">添加附件</el-button>-->
-        <!--<div slot="tip" class="el-upload__tip"></div>-->
-      <!--</el-upload>-->
-        <!--</el-form-item>-->
         <el-form-item>
       <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">发布作业</el-button>
      </el-form-item>
@@ -54,7 +40,7 @@
       <p>截止时间    <el-date-picker
         v-model="homework.ddl"
         type="datetime"
-        value-format="yyyy-MM-dd hh:mm:ss"
+        value-format="yyyy-MM-dd HH:mm:ss"
         readonly>
       </el-date-picker></p>
       <p v-if="homework.hasSizeLimit">大小限制：{{homework.sizeLimit}}MB</p>
@@ -129,7 +115,6 @@
             if(!validSize){
               this.$message({message:'文件大小超出限度'});
             }
-
           return validExt && validSize
         },
         successUpload(){

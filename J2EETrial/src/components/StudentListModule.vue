@@ -30,7 +30,7 @@
       </el-upload>
     </el-dialog>
 
-    <div v-if="!isStu&&isCur">
+    <div v-if="(!isStu)&&isCur">
   <el-button @click="showMail">群发邮件</el-button>
     <el-button @click="showUpload">上传成绩</el-button>
     </div>
@@ -57,7 +57,7 @@
           lesson_id : sessionStorage.lesson_id,
           students: [],
           isStu: sessionStorage.role == "student",
-          isCur: sessionStorage.isCur,
+          isCur: sessionStorage.isCur == "true",
           showMailDialog : false,
           showUploadDialog : false,
           Mail:{
@@ -70,7 +70,7 @@
       methods:{
           showMail()
           {
-            this.showMailDialog = true;
+              this.showMailDialog = true;
           },
           async sendMail()
           {
